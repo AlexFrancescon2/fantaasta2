@@ -15,6 +15,8 @@ import { AuctionModal } from "./auction-modal";
 import { Loader } from "../../primitives/loader/loader";
 import { updateSettings } from "../../../requests/settings";
 import { updatePlayer } from "../../../requests/players";
+import { toast } from "react-toastify";
+import { BiDownload } from "react-icons/bi";
 
 export const Auction = () => {
   // Set store
@@ -99,15 +101,39 @@ export const Auction = () => {
       }
     } else {
       setIsLoading(false);
-      setSelectedPlayerId(null)
-      // TODO: handle error
+      setSelectedPlayerId(null);
+      toast.error(
+        "Qualcosa e' andato storto ed abbiamo raggounto il limite di 100 estrazioni"
+      );
       return {};
     }
+  };
+
+  const onDownloadCSV = () => {
+    // Get array of rows
+    let rows = [["$", "$", "$"]];
+    const purchasedPlayers = players.filter((player) => player.owned !== "");
+
+    purchasedPlayers.forEach((player) => {
+      const user = users.find((user) => user.id === player.owned);
+      rows.push([user.team_name, player.id, player.owned_amount]);
+    });
+
+    // define content
+    let csvContent =
+      "data:text/csv;charset=utf-8," + rows.map((e) => e.join(",")).join("\n");
+
+    var encodedUri = encodeURI(csvContent);
+    var dlAnchorElem = document.getElementById("downloadAnchorElem2");
+    dlAnchorElem.setAttribute("href", encodedUri);
+    dlAnchorElem.setAttribute("download", "rosa.csv");
+    dlAnchorElem.click();
   };
 
   return (
     <>
       {isLoading && <Loader />}
+      <a id="downloadAnchorElem2" style={{ display: "none" }} alt="" />
       <Modal isOpen={auctionModaIsOpen} setIsOpen={setAuctionModalIsOpen}>
         <AuctionModal
           player={players.find((player) => player.id === selectedPlayerId)}
@@ -165,6 +191,21 @@ export const Auction = () => {
                 <LiaRandomSolid size={18} />
                 <Text color="white" css={{ marginLeft: "6px" }}>
                   Estrai
+                </Text>
+              </Button>
+            </Flex>
+            <Flex css={box}>
+              <Text
+                bottomMargin
+                css={{ fontSize: "18px", marginBottom: "15px" }}
+                isBold
+              >
+                Scarica CSV leghe
+              </Text>
+              <Button color="black" onClick={() => onDownloadCSV()}>
+                <BiDownload size={18} />
+                <Text color="white" css={{ marginLeft: "6px" }}>
+                  Download
                 </Text>
               </Button>
             </Flex>

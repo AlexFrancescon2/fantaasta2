@@ -23,9 +23,15 @@ import { shallow } from "zustand/shallow";
 import { Loader } from "../../primitives/loader/loader";
 import { Card } from "../../primitives/card/card";
 import { Avatar } from "../../primitives/avatar/avatar";
-import { calcMaxOffer, getChipLeader } from "../../../utils/users";
+import {
+  calcMaxOffer,
+  calcRemaingCredits,
+  getChipLeader,
+} from "../../../utils/users";
 import { BsShuffle } from "react-icons/bs";
 import { Sticker } from "../../primitives/sticker/sticker";
+import { toArray } from "../../../utils/objects";
+import { toast } from "react-toastify";
 
 export const AuctionModal = ({ player, settings, users, onShuffle }) => {
   const ownerData = users.find((user) => user.id === player.owned);
@@ -53,10 +59,12 @@ export const AuctionModal = ({ player, settings, users, onShuffle }) => {
   // Update player
   const onUpdatePlayer = async () => {
     if (!cost || !owner) {
+      toast.error("Completa tutti i campi");
       setUpdateError("Completa tutti i campi");
       return;
     }
     if (cost < 1) {
+      toast.error("Specifica un valore maggiore di 0");
       setUpdateError("Specifica un valore maggiore di 0");
       return;
     }
@@ -74,7 +82,9 @@ export const AuctionModal = ({ player, settings, users, onShuffle }) => {
       updatePlayerStore(newData, newData.id);
       setIsEditMode(false);
       setCanStickerPlay(true);
+      toast.success('Giocatore acquistato!')
     } else {
+      toast.error(response.errorMessage);
       setUpdateError(response.errorMessage);
     }
   };
@@ -145,6 +155,8 @@ export const AuctionModal = ({ player, settings, users, onShuffle }) => {
         <div
           style={{
             minWidth: "370px",
+            marginLeft: "30px",
+            marginTop: "10px",
             "@bp2max": {
               minWidth: "inherit",
               width: "100%",
@@ -288,7 +300,11 @@ export const AuctionModal = ({ player, settings, users, onShuffle }) => {
                       justifyContent: "center",
                     }}
                   >
-                    <Button color="orange" css={{ marginRight: "20px" }} onClick={onShuffle}>
+                    <Button
+                      color="orange"
+                      css={{ marginRight: "20px" }}
+                      onClick={onShuffle}
+                    >
                       <BsShuffle />
                       <Text css={{ marginLeft: "8px" }} color="white">
                         Salta ed estrai nuovo
@@ -391,6 +407,11 @@ export const AuctionModal = ({ player, settings, users, onShuffle }) => {
                             players,
                             user.id
                           );
+                          const remaininCredits = calcRemaingCredits(
+                            settings.budget,
+                            players,
+                            user.id
+                          );
                           const isChipLeader =
                             getChipLeader(settings.budget, players, users)
                               .id === user.id;
@@ -459,7 +480,7 @@ export const AuctionModal = ({ player, settings, users, onShuffle }) => {
                                         marginLeft: "6px",
                                       }}
                                     >
-                                      {maxOffer}
+                                      {remaininCredits}
                                     </Text>
                                   </Flex>
                                 </div>
@@ -477,7 +498,7 @@ export const AuctionModal = ({ player, settings, users, onShuffle }) => {
         </div>
       </Flex>
 
-      <Flex css={{ justifyContent: "end", marginTop: "40px" }}>
+      <Flex css={{ justifyContent: "end", marginTop: "70px" }}>
         {(isAuctionMode || isEditMode || player.owned) && (
           <Button color="orange" onClick={onShuffle}>
             <BsShuffle />

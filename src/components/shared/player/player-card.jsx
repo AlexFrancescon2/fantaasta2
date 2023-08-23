@@ -18,10 +18,27 @@ interface Props {
 }
 
 export const PlayerCard = ({ player, settings }: Props) => {
-  const playerNameArray = [
-    player.name.substring(0, player.name.indexOf(" ")),
-    player.name.substring(player.name.indexOf(" ") + 1),
-  ];
+  const rawPlayerNameArray = player.name.split(' ');
+  let playerNameArray = [];
+  rawPlayerNameArray.forEach((element, index) => {
+    const length = rawPlayerNameArray.length;
+    if (index > 0) {
+      if (length > 2) {
+        if (index === 1) {
+          playerNameArray[0] = `${playerNameArray[0]} ${element}`
+        } else {
+          playerNameArray[1] = element
+        }
+      } else {
+        playerNameArray[1] = `${playerNameArray[1] || ''} ${element}`
+
+      }
+    } else {
+      playerNameArray[0] = element
+    }
+
+  });
+
   return (
     <Flex css={{ position: "relative" }}>
       <div className={fakePlayerCard()}></div>

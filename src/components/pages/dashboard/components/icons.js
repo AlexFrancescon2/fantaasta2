@@ -1,5 +1,5 @@
 import { BiFootball } from "react-icons/bi";
-import { FaAdjust, FaAdn, FaArrowCircleDown, FaArrowCircleUp, FaArrowDown, FaArrowUp, FaAtom, FaBalanceScale, FaBan, FaBible, FaBurn, FaClinicMedical, FaCloudsmith, FaCog, FaCoins, FaCreativeCommonsBy, FaCreativeCommonsPdAlt, FaCreativeCommonsShare, FaCross, FaCrown, FaCut, FaDatabase, FaDharmachakra, FaDiceD6, FaDragon, FaExclamationCircle, FaEye, FaFan, FaFeatherAlt, FaFistRaised, FaFlask, FaFutbol, FaGamepad, FaGem, FaGhost, FaGlobeEurope, FaGuitar, FaHorse, FaInfinity, FaLightbulb, FaLock, FaMedal, FaPaperclip, FaPaw, FaPenFancy, FaPercentage, FaPizzaSlice, FaPoo, FaPray, FaPuzzlePiece, FaQuestion, FaRadiation, FaRegHeart, FaRegStar, FaRobot, FaSearch, FaSeedling, FaShareAlt, FaShieldAlt, FaShieldVirus, FaShoePrints, FaSignLanguage, FaSkull, FaSnowflake, FaSun, FaTag, FaTimes, FaTint, FaTrashAlt, FaTrophy, FaVirus, FaWind, FaWrench } from "react-icons/fa";
+import { FaAdjust, FaAdn, FaArrowCircleDown, FaArrowCircleUp, FaArrowDown, FaArrowUp, FaAtom, FaBalanceScale, FaBan, FaBible, FaBurn, FaClinicMedical, FaCloudsmith, FaCog, FaCoins, FaCreativeCommonsBy, FaCreativeCommonsPdAlt, FaCreativeCommonsShare, FaCross, FaCrown, FaCut, FaDatabase, FaDharmachakra, FaDiceD6, FaDragon, FaExclamation, FaExclamationCircle, FaEye, FaFan, FaFeatherAlt, FaFistRaised, FaFlask, FaFutbol, FaGamepad, FaGem, FaGhost, FaGlobeEurope, FaGuitar, FaHorse, FaInfinity, FaLightbulb, FaLock, FaMedal, FaPaperclip, FaPaw, FaPenFancy, FaPercentage, FaPizzaSlice, FaPoo, FaPray, FaPuzzlePiece, FaQuestion, FaRadiation, FaRegHeart, FaRegStar, FaRobot, FaSearch, FaSeedling, FaShareAlt, FaShieldAlt, FaShieldVirus, FaShoePrints, FaSignLanguage, FaSkull, FaSnowflake, FaSun, FaTag, FaTimes, FaTint, FaTrashAlt, FaTrophy, FaVirus, FaWind, FaWrench } from "react-icons/fa";
 import { TbCards, TbPlayFootball } from "react-icons/tb";
 import { SiCardano } from "react-icons/si";
 
@@ -215,6 +215,10 @@ export const icons = [
   {
     component: <FaQuestion />,
     value: 'FaQuestion'
+  },
+  {
+    component: <FaExclamation />,
+    value: 'FaExclamation'
   },
   {
     component: <FaRadiation />,

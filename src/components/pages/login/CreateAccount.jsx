@@ -67,6 +67,7 @@ export const CreateAccount = ({ isOpen, setIsOpen }) => {
                 onChange={(e) => setUserName(e.target.value)}
                 hasSpaceBottom
                 placeholder="Il tuo username, che utilizzerai per effettuare il login"
+                description="Usa il tuo nome o il tuo soprannome, verra' utilizzato dalla lega per identificarti. Ex: Giorgio"
               />
               <Input
                 label="Password"

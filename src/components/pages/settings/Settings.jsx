@@ -10,6 +10,8 @@ import { updateUser } from "../../../requests/users";
 import { Loader } from "../../primitives/loader/loader";
 import { UserUnregistered } from "./components/user-unregistered";
 import { GeneralSettings } from "./components/general-settings";
+import { PlayersSettings } from "./components/players-settings";
+import { toast } from "react-toastify";
 
 export const Settings = () => {
   // General state
@@ -38,8 +40,12 @@ export const Settings = () => {
       id: "users",
     });
     tabs.push({
-      label: "Impostazioni generali",
+      label: "Impostazioni generali di gioco",
       id: "general_settings",
+    });
+    tabs.push({
+      label: "Gestione calciatori",
+      id: "players_settings",
     });
   }
 
@@ -49,6 +55,15 @@ export const Settings = () => {
     setError("");
     if (!newData.username || !newData.team_name) {
       setError("Compila tutti i campi prima di procedere");
+      toast.error("Compila tutti i campi prima di procedere");
+      return;
+    }
+    if (
+      user.role === "admin" &&
+      newData.role !== "admin"
+    ) {
+      setError("Non puoi effettuare il downgrade da admin");
+      toast.error("Non puoi effettuare il downgrade da admin");
       return;
     }
     setIsLoading(true);
@@ -57,6 +72,7 @@ export const Settings = () => {
       if (id === user.id) {
         setUser(newData);
         localStorage.setItem("fantauser", JSON.stringify(newData));
+        toast.success("Profilo modificato correttamente");
       }
     }
     setIsLoading(false);
@@ -87,6 +103,9 @@ export const Settings = () => {
           </TabContent>
           <TabContent isActive={currentTab === "users"}>
             <UsersSettings />
+          </TabContent>
+          <TabContent isActive={currentTab === "players_settings"}>
+            <PlayersSettings />
           </TabContent>
         </Tabs>
       </div>

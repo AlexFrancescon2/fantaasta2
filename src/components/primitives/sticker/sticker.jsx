@@ -32,7 +32,6 @@ export const Sticker = ({ width, player, user, amount, settings, play }: Props) 
     };
 
     // Set sticker
-    let sticker = "acquisto.png";
     if (player.owned !== "") {
       if (player.name.includes("Aouar")) {
         info = {
@@ -52,7 +51,7 @@ export const Sticker = ({ width, player, user, amount, settings, play }: Props) 
           sticker: "madre.png",
           audio: new Audio(madreAudio),
         };
-      } else if (player.name.includes("Kovalenko")) {
+      } else if (player.name.includes("Kovalenko") || player.name.includes("mancosu")) {
         info = {
           sticker: "mancosu.png",
           audio: new Audio(mancosuAudio),
@@ -157,7 +156,10 @@ export const Sticker = ({ width, player, user, amount, settings, play }: Props) 
           player.quot_m >= 20 &&
           player.owned_amount < parseInt(player.quot_m) * 3)
       ) {
-        sticker = "acquisto.png";
+        info = {
+          sticker: "acquisto.png",
+          audio: new Audio(acquistoAudio),
+        };
       } else if (
         (player.owned_amount < parseInt(player.quot_m) * 2 &&
           player.quot_m >= 23) ||
@@ -165,7 +167,10 @@ export const Sticker = ({ width, player, user, amount, settings, play }: Props) 
           player.quot_m >= 20 &&
           player.owned_amount < parseInt(player.quot_m) * 4)
       ) {
-        sticker = "onesto.png";
+        info = {
+          sticker: "onesto.png",
+          audio: new Audio(onestoAudio),
+        };
       } else if (
         parseInt(player.quot_m) < 5 &&
         player.role_classic !== "P" &&
@@ -174,49 +179,90 @@ export const Sticker = ({ width, player, user, amount, settings, play }: Props) 
           player.team.toLowerCase() === "genoa" ||
           player.team.toLowerCase() === "verona")
       ) {
-        sticker = "j.png";
+        info = {
+          sticker: "j.png",
+          audio: new Audio(jAudio),
+        };
       } else if (
         parseInt(player.quot_m) < 5 &&
         player.role_classic !== "P" &&
         player.owned_amount > 1
       ) {
-        sticker = "veramente.png";
+        info = {
+          sticker: "veramente.png",
+          audio: new Audio(veramenteAudio),
+        };
       } else if (
-        parseInt(player.quot_m) < 6 &&
+        parseInt(player.quot_m) < 4 &&
         player.role_classic === "P" &&
         player.owned_amount > 1
       ) {
-        sticker = "ingiusto.png";
+        info = {
+          sticker: "ingiusto.png",
+          audio: new Audio(ingiustoAudio),
+        };
       } else if (
         parseInt(player.quot_m) >= 15 &&
         player.role_classic === "P" &&
-        player.owned_amount <= 40
+        percentage(player.owned_amount, settings.budget) <= 6
       ) {
-        sticker = "acquisto.png";
+        info = {
+          sticker: "acquisto.png",
+          audio: new Audio(ingiustoAudio),
+        };
       } else if (
         parseInt(player.quot_m) >= 15 &&
         player.role_classic === "P" &&
-        player.owned_amount <= 55
+        percentage(player.owned_amount, settings.budget) <= 9
       ) {
-        sticker = "onesto.png";
+        info = {
+          sticker: "onesto.png",
+          audio: new Audio(onestoAudio),
+        };
       } else if (
         parseInt(player.quot_m) > 12 &&
         player.role_classic === "P" &&
-        player.owned_amount > 30
+        percentage(player.owned_amount, settings.budget) > 5
       ) {
-        sticker = "senno.png";
+        info = {
+          sticker: "senno.png",
+          audio: new Audio(sennoAudio),
+        };
       } else if (player.owned_amount >= parseInt(player.quot_m) * 3) {
-        sticker = "dio.png";
-      } else if (player.owned_amount >= parseInt(player.quot_m) * 2.6) {
-        sticker = "impazzito.png";
-      } else if (player.owned_amount >= parseInt(player.quot_m) * 2.2) {
-        sticker = "cane.png";
+        info = {
+          sticker: "dio.png",
+          audio: new Audio(dioAudio),
+        };
+      } else if (player.owned_amount >= parseInt(player.quot_m) * 2.8) {
+        info = {
+          sticker: "impazzito.png",
+          audio: new Audio(impazzitoAudio),
+        };
+      } else if (player.owned_amount >= parseInt(player.quot_m) * 2.4) {
+        info = {
+          sticker: "cane.png",
+          audio: new Audio(caneAudio),
+        };
+      } else if (player.owned_amount >= parseInt(player.quot_m) * 2.1) {
+        info = {
+          sticker: "ecco.png",
+          audio: new Audio(eccoAudio),
+        }
       } else if (player.owned_amount >= parseInt(player.quot_m) * 1.8) {
-        sticker = "porca.png";
+        info = {
+          sticker: "porca.png",
+          audio: new Audio(porcaAudio),
+        };
       } else if (player.owned_amount >= parseInt(player.quot_m) * 1.4) {
-        sticker = "senno.png";
+        info = {
+          sticker: "senno.png",
+          audio: new Audio(sennoAudio),
+        };
       } else if (player.owned_amount > parseInt(player.quot_m)) {
-        sticker = "onesto.png";
+        info = {
+          sticker: "onesto.png",
+          audio: new Audio(onestoAudio),
+        };
       }
     }
 

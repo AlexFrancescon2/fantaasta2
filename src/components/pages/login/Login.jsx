@@ -10,13 +10,14 @@ import { login, loginWithCode } from "../../../requests/users";
 import { Loader } from "../../primitives/loader/loader";
 import { useStore } from "../../../store/store";
 import { ErrorMessage } from "../../primitives/text/error";
+import { fetchVitals } from "../page-wrapper/fetches";
 
 export const Login = () => {
   // History hook
   const navigate = useNavigate();
 
   // User user store
-  const { setUser } = useStore();
+  const store = useStore();
 
   // Loader & op states
   const [isLoading, setisloading] = useState(false);
@@ -42,12 +43,16 @@ export const Login = () => {
     setLoginErrorMessage("");
     setLoginCodeErrorMessage("");
     const response = await login(username, password);
-    setisloading(false);
     if (response.data) {
-      // Login successful, redirect
-      localStorage.setItem("fantauser", JSON.stringify(response.data));
-      setUser(response.data);
-      navigate("/");
+      // Fetch vital data
+      const data = await fetchVitals(store);
+      if (data.success) {
+        // Login successful, redirect
+        localStorage.setItem("fantauser", JSON.stringify(response.data));
+        store.setUser(response.data);
+        setisloading(false);
+        navigate("/");
+      }
     } else {
       setLoginErrorMessage(response.errorMessage);
     }
@@ -68,7 +73,7 @@ export const Login = () => {
     if (response.data) {
       // Login successful, redirect
       localStorage.setItem("fantauser", JSON.stringify(response.data));
-      setUser(response.data);
+      store.setUser(response.data);
       navigate("/");
     } else {
       setLoginCodeErrorMessage(response.errorMessage);
@@ -124,9 +129,7 @@ export const Login = () => {
               onChange={(e) => setCode(e.target.value)}
             />
             {loginCodeErrorMessage && (
-              <ErrorMessage>
-                {loginCodeErrorMessage}
-              </ErrorMessage>
+              <ErrorMessage>{loginCodeErrorMessage}</ErrorMessage>
             )}
             <Button color="black" hasSpaceTop onClick={onLoginWithCode}>
               Login con codice

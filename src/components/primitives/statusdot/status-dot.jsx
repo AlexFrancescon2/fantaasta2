@@ -54,7 +54,7 @@ const styles = css({
     },
     hasSpaceRight: {
       true: {
-        marginRight: "$2",
+        marginRight: "$3",
       },
     },
   },

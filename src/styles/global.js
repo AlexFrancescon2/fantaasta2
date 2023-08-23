@@ -98,7 +98,7 @@ export const playerCardMainColorVariants = (deg = 130) => {
   let variants = {};
   teamsSettings.forEach((team) => {
     variants[team.name.toLowerCase()] = {
-      backgroundColor: `${team.first_color_opac}`,
+      backgroundColor: `${team.first_color}`,
     };
   });
 

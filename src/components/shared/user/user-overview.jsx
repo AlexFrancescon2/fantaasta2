@@ -13,6 +13,10 @@ import { Image } from "../../primitives/image/image";
 import { PlayerRoles } from "../player/player-roles";
 import { Text } from "../../primitives/text/text";
 import { UserMetrics } from "./user-metrics";
+import {
+  getMantraRoleWeight,
+  getPlayerFavourableRole,
+} from "../../../utils/players";
 
 interface Props {
   user?: any;
@@ -59,42 +63,53 @@ export const UserOverview = ({ user, players, settings }: Props) => {
                   </TableRow>
                 </TableHead>
                 <TableBody isStriped>
-                  {players.map((player) => {
-                    return (
-                      <TableRow key={player.id}>
-                        <TableCell>
-                          <Text isBold>{player.name}</Text>
-                        </TableCell>
-                        <TableCell isCentered>
-                          <Tooltip
-                            text={player.team}
-                            variant="dark"
-                            fontSize="small"
-                            followCursor={false}
-                            position="top"
-                          >
-                            <Image
-                              src={`/media/teams/${player.team}.png`}
-                              css={{ maxHeight: "20px", maxWidth: "20px" }}
-                              alt={player.team}
+                  {players
+                    .sort(function (a, b) {
+                      return (
+                        getMantraRoleWeight[
+                          getPlayerFavourableRole(a.role_mantra).toUpperCase()
+                        ] -
+                        getMantraRoleWeight[
+                          getPlayerFavourableRole(b.role_mantra).toUpperCase()
+                        ]
+                      );
+                    })
+                    .map((player) => {
+                      return (
+                        <TableRow key={player.id}>
+                          <TableCell>
+                            <Text isBold>{player.name}</Text>
+                          </TableCell>
+                          <TableCell isCentered>
+                            <Tooltip
+                              text={player.team}
+                              variant="dark"
+                              fontSize="small"
+                              followCursor={false}
+                              position="top"
+                            >
+                              <Image
+                                src={`/media/teams/${player.team}.png`}
+                                css={{ maxHeight: "20px", maxWidth: "20px" }}
+                                alt={player.team}
+                              />
+                            </Tooltip>
+                          </TableCell>
+                          <TableCell>
+                            <PlayerRoles
+                              gameType="mantra"
+                              rolesMantra={player.role_mantra}
+                              roleClassic={player.role_classic}
+                              size="xsmall"
                             />
-                          </Tooltip>
-                        </TableCell>
-                        <TableCell>
-                          <PlayerRoles
-                            gameType="mantra"
-                            rolesMantra={player.role_mantra}
-                            roleClassic={player.role_classic}
-                            size="xsmall"
-                          />
-                        </TableCell>
-                        <TableCell isCentered>
-                          <Text isBold>{player.owned_amount}</Text>
-                        </TableCell>
-                        <TableCell isCentered>{player.quot_m}</TableCell>
-                      </TableRow>
-                    );
-                  })}
+                          </TableCell>
+                          <TableCell isCentered>
+                            <Text isBold>{player.owned_amount}</Text>
+                          </TableCell>
+                          <TableCell isCentered>{player.quot_m}</TableCell>
+                        </TableRow>
+                      );
+                    })}
                 </TableBody>
               </Table>
             )}

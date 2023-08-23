@@ -84,8 +84,7 @@ export const Tooltip = ({
             css: customStyles,
           })}
         >
-          <div className={content({ lessPadding })}>
-              {text}
+          <div className={content({ lessPadding })} dangerouslySetInnerHTML={{__html: text}}>
           </div>
         </div>
       )}

@@ -9,7 +9,7 @@ export interface CellProps {
   /** Set the minWidth of the cell */
   minWidth?: string;
   /**Set padding */
-  padding?: "default" | "unset" | 'small';
+  padding?: "default" | "unset" | "small";
   /** Set wheher the cell has an ellipsis */
   hasEllipsis?: boolean;
   /** Pass some custom css in */
@@ -33,10 +33,7 @@ export const TableCell = ({
   if (hasEllipsis) {
     return (
       <td
-        className={styles(
-          width,
-          minWidth
-        )({ css, padding, isCentered })}
+        className={styles(width, minWidth)({ css, padding, isCentered })}
         role={role}
       >
         <span className={ellipsisOverflow()}>{children}</span>
@@ -45,7 +42,9 @@ export const TableCell = ({
   }
 
   return (
-    <td className={styles(width, minWidth)({ css, padding, isCentered })}>
+    <td
+      className={styles(width, minWidth)({ css, padding, isCentered })}
+    >
       {children}
     </td>
   );

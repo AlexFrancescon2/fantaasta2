@@ -19,6 +19,7 @@ import {
 import { UserOverview } from "../../shared/user/user-overview";
 import { useStore } from "../../../store/store";
 import { shallow } from "zustand/shallow";
+import { toArray } from "../../../utils/objects";
 
 export const Users = () => {
   const { users, players, settings } = useStore(
@@ -37,6 +38,7 @@ export const Users = () => {
   const [selectedUser, setSelectedUser] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
 
+
   return (
     <>
       <Modal isOpen={isModalOpen} setIsOpen={setIsModalOpen}>
@@ -45,12 +47,7 @@ export const Users = () => {
             user={users.find((user) => user.id === selectedUser)}
             players={players
               .filter((p) => p.owned === selectedUser)
-              .sort(function (a, b) {
-                return (
-                  mantraRoleWeight[getPlayerFavourableRole(a.role_mantra)] -
-                  mantraRoleWeight[getPlayerFavourableRole(b.role_mantra)]
-                );
-              })}
+              }
             settings={settings}
           />
         </div>

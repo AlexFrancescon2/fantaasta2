@@ -21,7 +21,7 @@ export const Home = () => {
                 Gestore asta
               </Text>
               <Text>
-                Gestisci l'asta. Assegna o svincola i calciatori agli utenti
+                Gestisci l'asta. <br /> Assegna o svincola i calciatori ai giocatori
               </Text>
             </div>
             <div className={iconWrapper()}>

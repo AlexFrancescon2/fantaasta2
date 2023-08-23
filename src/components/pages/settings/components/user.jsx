@@ -26,7 +26,13 @@ import { Input } from "../../../primitives/input/input";
 import { Flex } from "../../../primitives/flex/flex";
 import { ErrorMessage } from "../../../primitives/text/error";
 
-export const UserSettings = ({ user, avatarWidth, onSubmit, error }) => {
+export const UserSettings = ({
+  user,
+  avatarWidth,
+  onSubmit,
+  error,
+  hasAdminAuth,
+}) => {
   // set avatar states
   const [avatarHairs, setAvatarHairs] = useState(user?.avatar?.hair);
   const [avatarAccessories, setAvatarAccessiories] = useState(
@@ -55,6 +61,7 @@ export const UserSettings = ({ user, avatarWidth, onSubmit, error }) => {
   // set Settings state
   const [username, setUsername] = useState(user.username);
   const [teamName, setTeamName] = useState(user.team_name);
+  const [role, setRole] = useState(user.role || "user");
 
   // on update
   const onUpdate = () => {
@@ -62,6 +69,7 @@ export const UserSettings = ({ user, avatarWidth, onSubmit, error }) => {
       ...user,
       username: username,
       team_name: teamName,
+      role: role,
       avatar: {
         hair: avatarHairs,
         accessory: avatarAccessories,
@@ -108,6 +116,17 @@ export const UserSettings = ({ user, avatarWidth, onSubmit, error }) => {
           </div>
           <div className={fieldSettingItem()}>
             <Input label="Codice" value={user.id} isDisabled />
+          </div>
+          <div className={fieldSettingItem()}>
+            <Select
+              label="Ruolo"
+              size="small"
+              value={role}
+              onChange={(e) => setRole(e.target.value)}
+            >
+              <SelectOption value="user">Utente</SelectOption>
+              <SelectOption value="admin">Admin</SelectOption>
+            </Select>
           </div>
         </div>
       </div>
@@ -156,7 +175,11 @@ export const UserSettings = ({ user, avatarWidth, onSubmit, error }) => {
                 }}
               >
                 {hairs.map((it) => {
-                  return <SelectOption key={it} value={it}>{it}</SelectOption>;
+                  return (
+                    <SelectOption key={it} value={it}>
+                      {it}
+                    </SelectOption>
+                  );
                 })}
               </Select>
             </div>
@@ -170,7 +193,11 @@ export const UserSettings = ({ user, avatarWidth, onSubmit, error }) => {
                 }}
               >
                 {hairColors.map((it) => {
-                  return <SelectOption key={it} value={it}>{it}</SelectOption>;
+                  return (
+                    <SelectOption key={it} value={it}>
+                      {it}
+                    </SelectOption>
+                  );
                 })}
               </Select>
             </div>
@@ -184,7 +211,11 @@ export const UserSettings = ({ user, avatarWidth, onSubmit, error }) => {
                 }}
               >
                 {facialHair.map((it) => {
-                  return <SelectOption key={it} value={it}>{it}</SelectOption>;
+                  return (
+                    <SelectOption key={it} value={it}>
+                      {it}
+                    </SelectOption>
+                  );
                 })}
               </Select>
             </div>
@@ -198,7 +229,11 @@ export const UserSettings = ({ user, avatarWidth, onSubmit, error }) => {
                 }}
               >
                 {facialHairColor.map((it) => {
-                  return <SelectOption key={it} value={it}>{it}</SelectOption>;
+                  return (
+                    <SelectOption key={it} value={it}>
+                      {it}
+                    </SelectOption>
+                  );
                 })}
               </Select>
             </div>
@@ -212,7 +247,11 @@ export const UserSettings = ({ user, avatarWidth, onSubmit, error }) => {
                 }}
               >
                 {eyes.map((it) => {
-                  return <SelectOption key={it} value={it}>{it}</SelectOption>;
+                  return (
+                    <SelectOption key={it} value={it}>
+                      {it}
+                    </SelectOption>
+                  );
                 })}
               </Select>
             </div>
@@ -226,7 +265,11 @@ export const UserSettings = ({ user, avatarWidth, onSubmit, error }) => {
                 }}
               >
                 {eyebrow.map((it) => {
-                  return <SelectOption key={it} value={it}>{it}</SelectOption>;
+                  return (
+                    <SelectOption key={it} value={it}>
+                      {it}
+                    </SelectOption>
+                  );
                 })}
               </Select>
             </div>
@@ -240,7 +283,11 @@ export const UserSettings = ({ user, avatarWidth, onSubmit, error }) => {
                 }}
               >
                 {mouth.map((it) => {
-                  return <SelectOption key={it} value={it}>{it}</SelectOption>;
+                  return (
+                    <SelectOption key={it} value={it}>
+                      {it}
+                    </SelectOption>
+                  );
                 })}
               </Select>
             </div>
@@ -254,7 +301,11 @@ export const UserSettings = ({ user, avatarWidth, onSubmit, error }) => {
                 }}
               >
                 {accessories.map((it) => {
-                  return <SelectOption key={it} value={it}>{it}</SelectOption>;
+                  return (
+                    <SelectOption key={it} value={it}>
+                      {it}
+                    </SelectOption>
+                  );
                 })}
               </Select>
             </div>
@@ -268,7 +319,11 @@ export const UserSettings = ({ user, avatarWidth, onSubmit, error }) => {
                 }}
               >
                 {clothes.map((it) => {
-                  return <SelectOption key={it} value={it}>{it}</SelectOption>;
+                  return (
+                    <SelectOption key={it} value={it}>
+                      {it}
+                    </SelectOption>
+                  );
                 })}
               </Select>
             </div>
@@ -282,7 +337,11 @@ export const UserSettings = ({ user, avatarWidth, onSubmit, error }) => {
                 }}
               >
                 {clothesColor.map((it) => {
-                  return <SelectOption key={it} value={it}>{it}</SelectOption>;
+                  return (
+                    <SelectOption key={it} value={it}>
+                      {it}
+                    </SelectOption>
+                  );
                 })}
               </Select>
             </div>
@@ -296,7 +355,11 @@ export const UserSettings = ({ user, avatarWidth, onSubmit, error }) => {
                 }}
               >
                 {skinColor.map((it) => {
-                  return <SelectOption key={it} value={it}>{it}</SelectOption>;
+                  return (
+                    <SelectOption key={it} value={it}>
+                      {it}
+                    </SelectOption>
+                  );
                 })}
               </Select>
             </div>

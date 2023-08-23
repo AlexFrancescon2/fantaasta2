@@ -17,9 +17,7 @@ interface Props {
 export const PlayerStats = ({ player, settings }: Props) => {
   const playedSeasons = Object.keys(player.stats);
   const [selectedSeason, setSelectedSeason] = useState(
-    playedSeasons?.includes(currentSeason)
-      ? currentSeason
-      : playedSeasons[0]
+    playedSeasons?.includes(currentSeason) ? currentSeason : playedSeasons[0]
   );
   return (
     <div>
@@ -88,7 +86,9 @@ export const PlayerStats = ({ player, settings }: Props) => {
             onChange={(e) => setSelectedSeason(e.target.value)}
           >
             {playedSeasons.map((season) => (
-              <SelectOption key={season} value={season}>{season}</SelectOption>
+              <SelectOption key={season} value={season}>
+                {season}
+              </SelectOption>
             ))}
           </Select>
         </Flex>
@@ -96,21 +96,21 @@ export const PlayerStats = ({ player, settings }: Props) => {
           <Flex css={statItemWithColoredStat}>
             <Text>Partite giocate</Text>
             <div className={coloredStat()}>
-              {player.stats[selectedSeason]?.played_matches}
+              <Text>{player.stats[selectedSeason]?.played_matches || "-"}</Text>
             </div>
           </Flex>
 
           <Flex css={statItemWithColoredStat}>
             <Text>Media voto</Text>
             <div className={coloredStat()}>
-              {player.stats[selectedSeason]?.mv}
+              <Text>{player.stats[selectedSeason]?.mv || "-"}</Text>
             </div>
           </Flex>
 
           <Flex css={statItemWithColoredStat}>
             <Text>Media fanta voto</Text>
             <div className={coloredStat()}>
-              {player.stats[selectedSeason]?.mfv}
+              <Text>{player.stats[selectedSeason]?.mfv || "-"}</Text>
             </div>
           </Flex>
 
@@ -119,25 +119,33 @@ export const PlayerStats = ({ player, settings }: Props) => {
               <Flex css={statItemWithColoredStat}>
                 <Text>Goal subiti</Text>
                 <div className={coloredStat()}>
-                  {player.stats[selectedSeason]?.goals_received}
+                  <Text>
+                    {player.stats[selectedSeason]?.goals_received || "-"}
+                  </Text>
                 </div>
               </Flex>
               <Flex css={statItemWithColoredStat}>
                 <Text>Goal subiti in casa</Text>
                 <div className={coloredStat()}>
-                  {player.stats[selectedSeason]?.home_goals_received}
+                  <Text>
+                    {player.stats[selectedSeason]?.home_goals_received || "-"}
+                  </Text>
                 </div>
               </Flex>
               <Flex css={statItemWithColoredStat}>
                 <Text>Goal subiti fuori casa</Text>
                 <div className={coloredStat()}>
-                  {player.stats[selectedSeason]?.away_goals_received}
+                  <Text>
+                    {player.stats[selectedSeason]?.away_goals_received || "-"}
+                  </Text>
                 </div>
               </Flex>
               <Flex css={statItemWithColoredStat}>
                 <Text>Rigori parati</Text>
                 <div className={coloredStat()}>
-                  {player.stats[selectedSeason]?.saved_penalties}
+                  <Text>
+                    {player.stats[selectedSeason]?.saved_penalties || "-"}
+                  </Text>
                 </div>
               </Flex>
             </>
@@ -147,31 +155,31 @@ export const PlayerStats = ({ player, settings }: Props) => {
               <Flex css={statItemWithColoredStat}>
                 <Text>Goal</Text>
                 <div className={coloredStat()}>
-                  {player.stats[selectedSeason]?.goals}
+                  <Text>{player.stats[selectedSeason]?.goals || "-"}</Text>
                 </div>
               </Flex>
               <Flex css={statItemWithColoredStat}>
                 <Text>Goal in casa</Text>
                 <div className={coloredStat()}>
-                  {player.stats[selectedSeason]?.home_goals}
+                  <Text>{player.stats[selectedSeason]?.home_goals || "-"}</Text>
                 </div>
               </Flex>
               <Flex css={statItemWithColoredStat}>
                 <Text>Goal fuori casa</Text>
                 <div className={coloredStat()}>
-                  {player.stats[selectedSeason]?.away_goals}
+                  <Text>{player.stats[selectedSeason]?.away_goals || "-"}</Text>
                 </div>
               </Flex>
               <Flex css={statItemWithColoredStat}>
                 <Text>Rigori</Text>
                 <div className={coloredStat()}>
-                  {player.stats[selectedSeason]?.penalties}
+                  <Text>{player.stats[selectedSeason]?.penalties || "-"}</Text>
                 </div>
               </Flex>
               <Flex css={statItemWithColoredStat}>
                 <Text>Assist</Text>
                 <div className={coloredStat()}>
-                  {player.stats[selectedSeason]?.assists}
+                  <Text>{player.stats[selectedSeason]?.assists || "-"}</Text>
                 </div>
               </Flex>
             </>
@@ -179,19 +187,19 @@ export const PlayerStats = ({ player, settings }: Props) => {
           <Flex css={statItemWithColoredStat}>
             <Text>Autogoal</Text>
             <div className={coloredStat()}>
-              {player.stats[selectedSeason]?.own_goals}
+            <Text>{player.stats[selectedSeason]?.own_goals || "-"}</Text>
             </div>
           </Flex>
           <Flex css={statItemWithColoredStat}>
             <Text>Ammonizioni</Text>
             <div className={coloredStat()}>
-              {player.stats[selectedSeason]?.yellow_cards}
+            <Text>{player.stats[selectedSeason]?.yellow_cards || "-"}</Text>
             </div>
           </Flex>
           <Flex css={statItemWithColoredStat}>
             <Text>Espulsioni</Text>
             <div className={coloredStat()}>
-              {player.stats[selectedSeason]?.red_cards}
+            <Text>{player.stats[selectedSeason]?.red_cards || "-"}</Text>
             </div>
           </Flex>
         </Flex>
@@ -205,31 +213,31 @@ export const PlayerStats = ({ player, settings }: Props) => {
           <Flex css={statItemWithColoredStat}>
             <Text>Titolare</Text>
             <div className={coloredStat()}>
-              <Text>{player.stats[selectedSeason]?.matches_in_lineups}</Text>
+              <Text>{player.stats[selectedSeason]?.matches_in_lineups || '-'}</Text>
             </div>
           </Flex>
           <Flex css={statItemWithColoredStat}>
             <Text>Subentrato</Text>
             <div className={coloredStat()}>
-              <Text>{player.stats[selectedSeason]?.matches_entered_late}</Text>
+              <Text>{player.stats[selectedSeason]?.matches_entered_late || '-'}</Text>
             </div>
           </Flex>
           <Flex css={statItemWithColoredStat}>
             <Text>Squalificato</Text>
             <div className={coloredStat()}>
-              <Text>{player.stats[selectedSeason]?.matches_disqualified}</Text>
+              <Text>{player.stats[selectedSeason]?.matches_disqualified || '-'}</Text>
             </div>
           </Flex>
           <Flex css={statItemWithColoredStat}>
             <Text>Infortunato</Text>
             <div className={coloredStat()}>
-              <Text>{player.stats[selectedSeason]?.matches_injured}</Text>
+              <Text>{player.stats[selectedSeason]?.matches_injured || '-'}</Text>
             </div>
           </Flex>
           <Flex css={statItemWithColoredStat}>
             <Text>Non utilizzato</Text>
             <div className={coloredStat()}>
-              <Text>{player.stats[selectedSeason]?.matches_unused}</Text>
+              <Text>{player.stats[selectedSeason]?.matches_unused || '-'}</Text>
             </div>
           </Flex>
         </Flex>

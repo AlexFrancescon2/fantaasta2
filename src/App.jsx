@@ -6,11 +6,22 @@ import { PageWrapper } from "./components/pages/page-wrapper/page-wrapper";
 import { Players } from "./components/pages/players/Players";
 import { Users } from "./components/pages/users/Users";
 import { Auction } from "./components/pages/auction/Auction";
-import './App.css'
+import "./App.css";
 import { Dashboard } from "./components/pages/dashboard/Dashboard";
+import { Loader } from "./components/primitives/loader/loader";
+import { useStore } from "./store/store";
+import { shallow } from "zustand/shallow";
 
 export default function App() {
+  const { isLoading, dataProviderLoaded } = useStore(
+    (state) => ({
+      isLoading: state.isLoading,
+      dataProviderLoaded: state.dataProviderLoaded,
+    }),
+    shallow
+  );
   const isLogged = !!JSON.parse(localStorage.getItem("fantauser"))?.id;
+
   const routes = useRoutes([
     {
       path: "/",
@@ -84,5 +95,5 @@ export default function App() {
     },
   ]);
 
-  return routes;
+  return isLoading || !dataProviderLoaded ? <Loader /> : <>{routes}</>;
 }

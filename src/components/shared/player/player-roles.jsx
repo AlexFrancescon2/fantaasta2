@@ -23,17 +23,18 @@ export const PlayerRoles = ({
   value,
   onChange,
 }: Props) => {
-  const mantraRoles = rolesMantra.split(",");
+  const mantraRoles = rolesMantra.split(";");
 
   const onSetValue = (selectedValue) => {
     // if Value exist already we remove it, otherwise we add it
     if (value?.includes(selectedValue)) {
       // Remove
-      onChange([...value?.filter((v) => v !== selectedValue)]);
+      value && onChange([...value?.filter((v) => v !== selectedValue)]);
     } else {
-      onChange([...value, selectedValue]);
+      value && onChange([...value, selectedValue]);
     }
   };
+
   return (
     <Flex>
       {gameType === "classic" ? (

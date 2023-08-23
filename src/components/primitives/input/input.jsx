@@ -2,18 +2,18 @@ import React, {
   KeyboardEvent,
   MouseEvent,
   ChangeEvent,
-  FocusEvent
-} from 'react';
-import { css } from '../../../styles/system';
-import { Label } from '../label/label';
-import { Flex } from '../flex/flex';
-import { Text } from '../text/text';
+  FocusEvent,
+} from "react";
+import { css } from "../../../styles/system";
+import { Label } from "../label/label";
+import { Flex } from "../flex/flex";
+import { Text } from "../text/text";
 
 interface Props {
   /** Set the ID of the element */
   id?: string;
   /** Set the input type */
-  type?: 'text' | 'password' | 'email' | 'number' | 'tel' | 'url' | 'search';
+  type?: "text" | "password" | "email" | "number" | "tel" | "url" | "search";
   /** Set the name of the element */
   name?: string;
   /** Set the value of the element */
@@ -43,15 +43,23 @@ interface Props {
   /** Set whether to render the element inline */
   isInline?: boolean;
   /** Set the size of the element */
-  size?: 'xs' | 'xsmall' | 'small' | 'medium' | 'large' | 'full';
+  size?: "xs" | "xsmall" | "small" | "medium" | "large" | "full";
   /** Set the onChange handler */
-  onChange?: (event?: ChangeEvent<HTMLInputElement>) => Promise<void | boolean> | void;
+  onChange?: (
+    event?: ChangeEvent<HTMLInputElement>
+  ) => Promise<void | boolean> | void;
   /** Set the onBlur handler */
-  onBlur?: (event?: FocusEvent<HTMLInputElement>) => Promise<void | boolean> | void;
+  onBlur?: (
+    event?: FocusEvent<HTMLInputElement>
+  ) => Promise<void | boolean> | void;
   /** Set the onKeyDown handler */
-  onKeyDown?: (event?: KeyboardEvent<HTMLInputElement>) => Promise<void | boolean> | void;
+  onKeyDown?: (
+    event?: KeyboardEvent<HTMLInputElement>
+  ) => Promise<void | boolean> | void;
   /** Set the onMouseDown handler */
-  onMouseDown?: (event?: MouseEvent<HTMLInputElement>) => Promise<void | boolean> | void;
+  onMouseDown?: (
+    event?: MouseEvent<HTMLInputElement>
+  ) => Promise<void | boolean> | void;
   /** Set custom css */
   css?: CSS;
   /** Set role */
@@ -103,7 +111,7 @@ export const Input = ({
   onBlur,
   onMouseDown,
   onKeyDown,
-  type = 'text',
+  type = "text",
   isFitContent,
   suffix,
   suffixTooltip,
@@ -116,9 +124,8 @@ export const Input = ({
   min,
   max,
   tabIndex,
-  description
+  description,
 }: Props) => {
-
   return (
     <>
       {label && (
@@ -135,11 +142,18 @@ export const Input = ({
           )}
         </div>
       )}
-      <div className={flexWrapper({ hasSpaceBottom, hasSpaceTop, hasSpaceLeft, size })}>
+      <div
+        className={flexWrapper({
+          hasSpaceBottom,
+          hasSpaceTop,
+          hasSpaceLeft,
+          size,
+        })}
+      >
         <div className={wrapper({ size })}>
-          <Flex css={{ width: '100%' }}>
-            <Flex css={{ width: '100%' }}>
-              <Flex css={{ width: '100%', position: 'relative' }}>
+          <Flex css={{ width: "100%" }}>
+            <Flex css={{ width: "100%" }}>
+              <Flex css={{ width: "100%", position: "relative" }}>
                 <input
                   className={styles({
                     variant,
@@ -156,7 +170,7 @@ export const Input = ({
                     hasLabelBox,
                     hasEllipsis,
                     hasSuffix: !!suffix,
-                    css
+                    css,
                   })}
                   type={type}
                   value={value}
@@ -175,79 +189,81 @@ export const Input = ({
                   onKeyDown={(event) => {
                     onKeyDown && onKeyDown(event);
                   }}
-
                   onBlur={onBlur}
                   autoFocus={autoFocus}
                   role={role}
                 />
+                {suffix && (
+                  <Flex css={suffixStyle}>
+                    <Text>{suffix}</Text>
+                  </Flex>
+                )}
               </Flex>
             </Flex>
           </Flex>
         </div>
-        {description && <Text size='xsmall'>{description}</Text>}
-
+        {description && <Text size="xsmall">{description}</Text>}
       </div>
     </>
-
   );
 };
 
 const wrapper = css({
-  position: 'relative',
-  display: 'flex',
-  width: '100%',
+  position: "relative",
+  display: "flex",
+  width: "100%",
   variants: {
     size: {
       xs: {
-        width: '60px'
+        width: "60px",
       },
       xsmall: {
-        width: '150px'
+        width: "150px",
       },
       small: {
-        width: '200px',
-        '& input': {
-          padding: '$1 $3',
-        }
+        width: "200px",
+        "& input": {
+          padding: "$1 $3",
+        },
       },
       medium: {
-        width: '300px'
+        width: "300px",
       },
       large: {
-        width: '400px'
+        width: "400px",
       },
       full: {
-        width: '100%'
+        width: "100%",
       },
       inlinesmall: {
-        width: '100%'
-      }
-    }
-  }
+        width: "100%",
+      },
+    },
+  },
 });
 
 const styles = css({
-  padding: '$3',
-  height: '$5',
-  background: 'white',
-  border: '1px solid $grey4',
-  borderRadius: '$1',
-  outline: 'none',
-  fontFamily: '$normal',
-  fontSize: '$4',
-  color: '$grey6',
-  width: '100%',
-  transition: 'border-color ease-in-out .15s, box-shadow ease-in-out .15s',
-  '&:focus': {
-    borderColor: '$blue1'
+  padding: "$3",
+  height: "$5",
+  background: "white",
+  border: "1px solid $grey4",
+  borderRadius: "$1",
+  outline: "none",
+  fontFamily: "$normal",
+  fontSize: "$4",
+  color: "$grey6",
+  width: "100%",
+  transition: "border-color ease-in-out .15s, box-shadow ease-in-out .15s",
+  "&:focus": {
+    borderColor: "$blue1",
   },
-  '&:disabled': {
-    border: '1px solid $grey4',
-    background: '$grey2',
-    cursor: 'not-allowed !important'
+  "&:disabled": {
+    border: "1px solid $grey4",
+    background: "$grey2",
+    cursor: "not-allowed !important",
   },
-  '&::placeholder': {
-    color: '$grey5'
+  "&::placeholder": {
+    color: "$grey5",
   },
 });
 
@@ -255,18 +271,18 @@ const flexWrapper = css({
   variants: {
     hasSpaceBottom: {
       true: {
-        marginBottom: '$4'
-      }
+        marginBottom: "$4",
+      },
     },
     hasSpaceTop: {
       true: {
-        marginTop: '$4'
-      }
+        marginTop: "$4",
+      },
     },
     hasSpaceLeft: {
       true: {
-        marginLeft: '$4'
-      }
+        marginLeft: "$4",
+      },
     },
     size: {
       xs: {},
@@ -275,11 +291,20 @@ const flexWrapper = css({
       medium: {},
       large: {},
       inlinesmall: {
-        width: '30%'
+        width: "30%",
       },
       full: {
-        width: '100%'
-      }
-    }
-  }
+        width: "100%",
+      },
+    },
+  },
 });
+
+const suffixStyle = {
+  background: "$grey2",
+  justifyContent: "center",
+  height: "40px",
+  width: "40px",
+  border: "1px solid $grey4",
+  borderLeft: "none",
+};

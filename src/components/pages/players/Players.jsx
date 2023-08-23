@@ -12,9 +12,9 @@ import { Text } from "../../primitives/text/text";
 import { Tooltip } from "../../primitives/tooltip/tooltip";
 import { IoIosStats, IoMdStats } from "react-icons/io";
 import { LiaFilterSolid } from "react-icons/lia";
-import { AiOutlineStar } from "react-icons/ai";
+import { AiFillStar, AiOutlineStar } from "react-icons/ai";
 import { Flex } from "../../primitives/flex/flex";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { PlayerOverview } from "../../shared/player/player-overview";
 import { Pagination } from "../../primitives/pagination/pagination";
 import { Select } from "../../primitives/select/select";
@@ -29,18 +29,44 @@ import { useTableSort } from "../../../hooks/table-sort";
 import { sort } from "../../../utils/arrays";
 import { useStore } from "../../../store/store";
 import { shallow } from "zustand/shallow";
+import { AddTarget } from "../dashboard/components/add-target";
 
 export const Players = () => {
   // getStore
-  const { players, users } = useStore(
+  const { players, users, magheggi } = useStore(
     (state) => ({
       players: state.players,
       users: state.users,
+      magheggi: state.magheggi,
     }),
     shallow
   );
   const [isPlayerModalOpen, setIsPlayerModalOpen] = useState(false);
+  const [isTargetModalOpen, setIsTargetModalOpen] = useState(false);
+  const [isTargetEditModalOpen, setIsTargetEditModalOpen] = useState(false);
   const [selectedPlayer, setSelectedPlayer] = useState();
+  const [selectedTarget, setSelectedTarget] = useState();
+  const [selectedTargetId, setSelectedTargetId] = useState(null);
+
+  useEffect(() => {
+    selectedTarget && setIsTargetEditModalOpen(true);
+  }, [selectedTarget]);
+
+  useEffect(() => {
+    selectedTargetId && setIsTargetModalOpen(true);
+  }, [selectedTargetId]);
+
+  const onCloseTargetEditModalOpen = () => {
+    setSelectedTarget(null);
+    setIsTargetEditModalOpen(false);
+  };
+
+  const onCloseTargetModalOpen = () => {
+    setSelectedTargetId(null);
+    setIsTargetModalOpen(false);
+  };
+
+  console.log({players})
 
   // Filters
   const [pageSize, setPageSize] = useState(20);
@@ -83,7 +109,7 @@ export const Players = () => {
     if (selectedRoles.length > 0) {
       filteredPlayers = filteredPlayers.filter((player) => {
         return player.role_mantra
-          .split(",")
+          .split(";")
           .some((ai) => selectedRoles?.includes(ai));
       });
     }
@@ -118,6 +144,7 @@ export const Players = () => {
     setSelectedRoles([]);
   };
 
+
   return (
     <>
       <Modal isOpen={isPlayerModalOpen} setIsOpen={setIsPlayerModalOpen}>
@@ -125,6 +152,26 @@ export const Players = () => {
           <PlayerOverview
             player={players.find((player) => player.id === selectedPlayer)}
             settings={{ gameType: "mantra" }}
+          />
+        </div>
+      </Modal>
+      <Modal isOpen={isTargetModalOpen} setIsOpen={onCloseTargetModalOpen}>
+        <div className={modalWrapper()}>
+          <AddTarget editPlayerId={selectedTargetId} />
+        </div>
+      </Modal>
+      <Modal
+        isOpen={isTargetEditModalOpen}
+        setIsOpen={onCloseTargetEditModalOpen}
+      >
+        <div className={modalWrapper()}>
+          <AddTarget
+            isEdit
+            editPlayerId={selectedTarget?.id}
+            editSelectedFascia={selectedTarget?.fascia}
+            editNotes={selectedTarget?.notes}
+            editPMax={selectedTarget?.p_max}
+            editTags={selectedTarget?.tags}
           />
         </div>
       </Modal>
@@ -224,7 +271,7 @@ export const Players = () => {
                 Ruolo:
               </Text>
               <PlayerRoles
-                rolesMantra={mantraRoles.join(",")}
+                rolesMantra={mantraRoles.join(";")}
                 settings={{ gameType: "mantra" }}
                 size="medium"
                 isSelectable
@@ -331,6 +378,9 @@ export const Players = () => {
             <TableBody isStriped>
               {filteredPlayers.map((player) => {
                 const owner = users.find((user) => user.id === player.owned);
+                const magheggio = magheggi.targets?.find(
+                  (target) => target.id.toString() === player.id.toString()
+                );
                 return (
                   <TableRow key={player.id}>
                     <TableCell padding="small">
@@ -387,7 +437,13 @@ export const Players = () => {
                       <Flex
                         css={{ justifyContent: "flex-end", gap: "0px 5px" }}
                       >
-                        <Flex>
+                        <Flex
+                          onClick={() =>
+                            magheggio
+                              ? setSelectedTarget(magheggio)
+                              : setSelectedTargetId(player.id || null)
+                          }
+                        >
                           <Tooltip
                             text="Gestisci magheggi"
                             variant="dark"
@@ -396,11 +452,15 @@ export const Players = () => {
                             position="top"
                           >
                             <div className={actionWrapper()}>
-                              <AiOutlineStar color="black" />
+                              {magheggio ? (
+                                <AiFillStar color="orange" />
+                              ) : (
+                                <AiOutlineStar color="black" />
+                              )}
                             </div>
                           </Tooltip>
                         </Flex>
-                        <Flex css={{marginLeft: '5px'}}>
+                        <Flex css={{ marginLeft: "5px", marginRight: "5px" }}>
                           <Tooltip
                             text="Guarda statistiche"
                             variant="dark"
@@ -481,4 +541,27 @@ const tag = css({
   backgroundColor: "$grey3",
   padding: "2px 6px",
   borderRadius: "$2",
+});
+
+const modalWrapper = css({
+  width: "92vw",
+  maxHeight: "84vh",
+  height: "ingerit",
+  overflowY: "scroll",
+  backgroundColor: "$white",
+  borderRadius: "$2",
+  padding: "$4",
+  "@bp2max": {
+    width: "85vw",
+  },
+  variants: {
+    size: {
+      small: {
+        width: "40vw",
+        "@bp2max": {
+          width: "85vw",
+        },
+      },
+    },
+  },
 });

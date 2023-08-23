@@ -25,7 +25,7 @@ export const getUsers = () => {
       if (snapshot.exists()) {
         // Find user by username and password
         const users = toArray(snapshot.val());
-        return { status: 200, data: users };
+        return { status: 200, data: users, rawdData: snapshot.val() };
       } else {
         return { status: 400, errorMessage: "Nessun utente registrato." };
       }
@@ -130,6 +130,16 @@ export const loginWithCode = (code) => {
 
 export const updateUser = (newData, userId) => {
   return set(ref(db, "users/" + userId), newData)
+    .then((t) => {
+      return { status: 200 };
+    })
+    .catch((error) => {
+      return { status: 400, error: error };
+    });
+};
+
+export const updateUsers = (newData) => {
+  return set(ref(db, "users"), newData)
     .then((t) => {
       return { status: 200 };
     })

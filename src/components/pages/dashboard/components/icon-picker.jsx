@@ -24,6 +24,10 @@ const iconPicker = {
   overflowY: "scroll",
   flexWrap: "wrap",
   borderRadius: "$1",
+  "@bp2max": {
+    width: 'inherit',
+    marginBottom: '30px'
+  },
   "& svg": {
     width: "50px",
     height: "50px",
@@ -40,7 +44,7 @@ const iconWrapper = css({
   variants: {
     isActive: {
       true: {
-        backgroundColor: "$green2",
+        backgroundColor: "#4cb34c82",
       },
       false: {
         "&:hover": {

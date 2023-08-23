@@ -27,7 +27,7 @@ export const getMantraRoleColors = {
 };
 
 export const getPlayerFavourableRole = (roles: string) => {
-  const roleArray = roles.split(",");
+  const roleArray = roles.split(";");
   const mantraRoleWeight = getMantraRoleWeight;
   let role;
   roleArray.forEach((r) => {

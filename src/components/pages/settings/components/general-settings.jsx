@@ -19,6 +19,7 @@ import { shallow } from "zustand/shallow";
 import { Select } from "../../../primitives/select/select";
 import { SelectOption } from "../../../primitives/select/option";
 import { Tooltip } from "../../../primitives/tooltip/tooltip";
+import { toast } from "react-toastify";
 
 export const GeneralSettings = ({ user }) => {
   // Data states
@@ -43,25 +44,6 @@ export const GeneralSettings = ({ user }) => {
 
   // General states
   const [error, setError] = useState("");
-  // Fetch settings
-  // const onFetchSettings = async () => {
-  //   setIsLoading(true);
-  //   const response = await getSettings();
-  //   handleResponse(response);
-  //   if (response.data) {
-  //     setSettings(response.data);
-  //     setBudget(response.data?.budget);
-  //     setWinterudget(response.data?.winter_budget);
-  //     setMinPlayers(response.data?.min_players);
-  //     setMaxPlayers(response.data?.max_players);
-  //   }
-  //   setIsLoading(false);
-  // };
-
-  // // Fetch users
-  // useEffect(() => {
-  //   onFetchSettings();
-  // }, []);
 
   // on update
   const onUpdate = async () => {
@@ -75,6 +57,7 @@ export const GeneralSettings = ({ user }) => {
       !extrNumber
     ) {
       setError("Compila tutti i campi prima di procedere");
+      toast.error("Compila tutti i campi prima di procedere");
       return;
     }
 
@@ -82,12 +65,14 @@ export const GeneralSettings = ({ user }) => {
       setError(
         "Si e' verificato un errore riguardante il numero dei giocatori. Ricontrolla i campi"
       );
+      toast.error(
+        "Si e' verificato un errore riguardante il numero dei giocatori. Ricontrolla i campi"
+      );
       return;
     }
     if (extrNumber < 1) {
-      setError(
-        "Il numero minimo per il valore di estraibilita' e' 1"
-      );
+      toast.error("Il numero minimo per il valore di estraibilita' e' 1");
+      setError("Il numero minimo per il valore di estraibilita' e' 1");
       return;
     }
     setError("");
@@ -104,8 +89,10 @@ export const GeneralSettings = ({ user }) => {
     const response = await updateSettings(newData);
     if (response.status === 200) {
       setSettings(newData);
+      toast.success('Impostazioni aggiornate correttamente!')
     } else {
       setError(response.error);
+      toast.error(response.error);
     }
     setIsLoading(false);
   };
